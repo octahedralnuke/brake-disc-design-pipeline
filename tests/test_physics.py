@@ -2,7 +2,8 @@ from dataclasses import replace
 import math
 import numpy as np
 import pytest
-from brakedisc.model import requirements
+from brakedisc.model import GRAVITY_M_S2, grip, requirements
+from brakedisc.pipeline import evaluate
 from brakedisc.mesh import surface_integration, tet_shape
 from brakedisc.verification import reference_tet
 from brakedisc.solver import von_mises
@@ -10,12 +11,12 @@ from brakedisc.solver import von_mises
 
 def test_requirements_against_hand_calculation(config):
     r = requirements(config.scenario, config.variants[0], config.material)
-    assert r["disc_torque_nm"] == pytest.approx(176.4)
-    assert r["stop_time_s"] == pytest.approx(25/9)
+    assert r["disc_torque_nm"] == pytest.approx(113.4)
+    assert r["stop_time_s"] == pytest.approx(350/81)
     assert r["disc_energy_j"] == pytest.approx(30625.)
     assert r["effective_radius_m"] == pytest.approx(49/600)
-    assert r["total_pad_normal_force_n"] == pytest.approx(5400.)
-    assert r["normal_force_per_pad_n"] == pytest.approx(2700.)
+    assert r["total_pad_normal_force_n"] == pytest.approx(24300/7)
+    assert r["normal_force_per_pad_n"] == pytest.approx(12150/7)
 
 
 def test_energy_scales_with_speed_squared(config):
@@ -28,8 +29,46 @@ def test_energy_scales_with_speed_squared(config):
 def test_disc_count_and_heat_partition(config):
     s, d, m = config.scenario, config.variants[0], config.material
     r = requirements(replace(s, disc_count=2, brake_share=0.5, disc_heat_fraction=0.5), d, m)
-    assert r["disc_torque_nm"] == pytest.approx(44.1)
+    assert r["disc_torque_nm"] == pytest.approx(28.35)
     assert r["disc_energy_j"] == pytest.approx(0.5*180*(70/3.6)**2*0.5*0.5/2)
+
+
+def test_rear_grip_limit_against_hand_calculation(config):
+    g = grip(config.scenario)
+    # a_max = mu g f / (1 + mu h / L) = 0.6 g / (1 + 0.3/1.05)
+    assert g["grip_limit_deceleration_m_s2"] == pytest.approx(0.6*GRAVITY_M_S2*1.05/1.35)
+    assert g["braked_axle_load_n"] == pytest.approx(180*(0.6*GRAVITY_M_S2 - 4.5*0.3/1.05))
+    assert g["tyre_friction_utilisation"] == pytest.approx(180*4.5/g["braked_axle_load_n"])
+    assert g["tyre_friction_utilisation"] < 1
+
+
+def test_utilisation_reaches_one_at_grip_limit(config):
+    s = config.scenario
+    limit = grip(s)["grip_limit_deceleration_m_s2"]
+    assert grip(replace(s, deceleration_m_s2=limit))["tyre_friction_utilisation"] == pytest.approx(1)
+
+
+def gate(scenario, config):
+    result = {"requirements": requirements(scenario, config.variants[0], config.material),
+              "safety_factor": 3., "peak_temperature_c": 100., "volume_error_fraction": 0.,
+              "energy_error_fraction": 0., "reaction_torque_error_fraction": 0., "solver_completed": True}
+    return evaluate(result, {"min_safety_factor": 1.5, "max_temperature_c": 250.,
+                             "max_volume_error_fraction": .01, "max_energy_error_fraction": .02,
+                             "max_reaction_torque_error_fraction": .01})["tyre_grip"]
+
+
+def test_rear_braked_kart_cannot_stop_at_7_m_s2(config):
+    s = config.scenario
+    assert gate(s, config)
+    assert not gate(replace(s, deceleration_m_s2=7.0), config)
+    # The same request is within grip when all four wheels brake.
+    assert gate(replace(s, deceleration_m_s2=7.0, braked_axle="all"), config)
+
+
+def test_lifted_rear_axle_is_rejected(config):
+    s = replace(config.scenario, deceleration_m_s2=30.0)
+    assert grip(s)["tyre_friction_utilisation"] is None
+    assert not gate(s, config)
 
 
 def test_volume_includes_removed_holes(config):
@@ -39,7 +78,8 @@ def test_volume_includes_removed_holes(config):
 
 
 @pytest.mark.parametrize("field,value", [("mass_kg", 0), ("speed_kmh", float("nan")),
-    ("brake_share", 1.1), ("disc_count", 1.5), ("pad_friction", -0.1), ("ambient_c", -274)])
+    ("brake_share", 1.1), ("disc_count", 1.5), ("pad_friction", -0.1), ("ambient_c", -274),
+    ("braked_axle", "front"), ("rear_weight_fraction", 1.2), ("cg_height_m", 0), ("tyre_friction", float("inf"))])
 def test_invalid_scenario(config, field, value):
     with pytest.raises(ValueError):
         replace(config.scenario, **{field: value})

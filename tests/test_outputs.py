@@ -9,7 +9,8 @@ from brakedisc.solver import nodal, parse_dat
 
 def sample(config):
     return {"schema_version": 1, "limits": asdict(config.limits), "errors": [], "results": [
-        {"name": "example", "safety_factor": 3., "peak_temperature_c": 100.,
+        {"name": "example", "requirements": {"tyre_friction_utilisation": 0.9},
+         "safety_factor": 3., "peak_temperature_c": 100.,
          "volume_error_fraction": 0.001, "energy_error_fraction": 0.01,
          "reaction_torque_error_fraction": 0.0001, "solver_completed": True}]}
 

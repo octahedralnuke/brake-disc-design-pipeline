@@ -6,6 +6,8 @@ import math
 from pathlib import Path
 import re
 
+GRAVITY_M_S2 = 9.80665
+
 
 def positive(**values):
     for key, value in values.items():
@@ -26,9 +28,18 @@ class Scenario:
     ambient_c: float
     cooling_s: float
     convection_w_m2k: float
+    cg_height_m: float
+    wheelbase_m: float
+    rear_weight_fraction: float
+    tyre_friction: float
+    braked_axle: str
 
     def __post_init__(self):
-        positive(**{k: v for k, v in asdict(self).items() if k != "ambient_c"})
+        positive(**{k: v for k, v in asdict(self).items() if k not in {"ambient_c", "braked_axle"}})
+        if self.braked_axle not in {"rear", "all"}:
+            raise ValueError("braked_axle must be 'rear' or 'all'")
+        if not 0 < self.rear_weight_fraction < 1:
+            raise ValueError("rear_weight_fraction must be in (0, 1)")
         if not 0 < self.brake_share <= 1 or not 0 < self.disc_heat_fraction <= 1:
             raise ValueError("brake_share and disc_heat_fraction must be in (0, 1]")
         if type(self.disc_count) is not int or not math.isfinite(self.ambient_c):
@@ -145,6 +156,22 @@ class Config:
                    d["mesh_mm"], tuple(Design(**v) for v in d["variants"]))
 
 
+def grip(s: Scenario):
+    """Tyre-grip limit of the braked axle with quasi-static longitudinal load transfer."""
+    g, a = GRAVITY_M_S2, s.deceleration_m_s2
+    if s.braked_axle == "all":
+        load = s.mass_kg * g
+        limit = s.tyre_friction * g
+    else:
+        # Braking moves load forward by M a h / L, unloading the rear axle.
+        load = s.mass_kg * (g * s.rear_weight_fraction - a * s.cg_height_m / s.wheelbase_m)
+        limit = s.tyre_friction * g * s.rear_weight_fraction / (
+            1 + s.tyre_friction * s.cg_height_m / s.wheelbase_m)
+    utilisation = s.mass_kg * a / (s.tyre_friction * load) if load > 0 else None
+    return {"braked_axle_load_n": load, "grip_limit_deceleration_m_s2": limit,
+            "tyre_friction_utilisation": utilisation}
+
+
 def requirements(s: Scenario, d: Design, m: Material):
     v = s.speed_kmh / 3.6
     torque = s.mass_kg * s.deceleration_m_s2 * s.wheel_radius_m * s.brake_share / s.disc_count
@@ -158,4 +185,5 @@ def requirements(s: Scenario, d: Design, m: Material):
         "normal_force_per_pad_n": torque / (2 * s.pad_friction * d.effective_radius_m),
         "disc_energy_j": energy, "initial_disc_power_w": 2 * energy / (v / s.deceleration_m_s2),
         "analytical_mass_kg": mass, "adiabatic_mean_rise_k": energy / (mass * m.specific_heat_j_kgk),
+        **grip(s),
     }
