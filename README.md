@@ -128,7 +128,7 @@ The latter runs actual CAD and FEA and is expected to exit with status 2. Its re
 
 These give **176.4 N·m**, **5,400 N total normal force across both pads**, a **2.778 s** stop and **30.625 kJ** of disc heat. Uniform annular pressure gives an effective friction radius of 81.667 mm.
 
-All variants have a 200 mm outside diameter, 40 mm bore, six Ø8 mm bolt holes on a 70 mm PCD and a swept annulus from R60 to R100 mm. Baseline thickness is 7 mm; lightweight thickness is 6 mm; the drilled disc is 7 mm thick with twelve Ø8 mm holes on a 160 mm PCD.
+All variants have a 200 mm outside diameter, 40 mm bore, six Ø8 mm bolt holes on a 70 mm PCD and a swept annulus from R60 to R100 mm. Baseline thickness is 7 mm; lightweight thickness is 6 mm; the drilled disc is 9 mm thick with twelve Ø8 mm holes on a 160 mm PCD.
 
 <!-- VERIFIED_RESULTS_START -->
 See `examples/study/summary.json` for verified results generated from the supplied configuration.

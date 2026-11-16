@@ -34,7 +34,7 @@ def test_disc_count_and_heat_partition(config):
 
 def test_volume_includes_removed_holes(config):
     d = config.variants[2]
-    expected = math.pi/4*(200**2-40**2-6*8**2-12*8**2)*7*1e-9
+    expected = math.pi/4*(200**2-40**2-6*8**2-12*8**2)*9*1e-9
     assert d.analytical_volume_m3 == pytest.approx(expected)
 
 

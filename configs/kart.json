@@ -60,7 +60,7 @@
     {
       "name": "drilled",
       "outer_diameter_mm": 200.0,
-      "thickness_mm": 7.0,
+      "thickness_mm": 9.0,
       "bore_diameter_mm": 40.0,
       "bolt_pcd_mm": 70.0,
       "bolt_count": 6,
