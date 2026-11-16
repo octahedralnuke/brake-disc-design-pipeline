@@ -146,6 +146,13 @@ These values are captured CalculiX results, not illustrative chart data. Open [t
 The left panel maps temperature across the baseline disc at its thermal peak; the right panel maps von Mises stress in the hot structural case. Each colour bar gives the corresponding values and units. The fields show where heating and stress concentrate within the disc.
 <!-- VERIFIED_RESULTS_END -->
 
+### Design decision
+
+For this single-stop load case the **7 mm solid baseline is recommended**. It has the largest margin (SF 2.05) at 1.64 kg.
+
+- The 6 mm lightweight disc saves 0.24 kg (14%) and still passes at SF 1.73, but peaks 9 °C hotter. Repeated stops, which this model does not simulate, would widen that gap, so the extra margin of the baseline is kept.
+- Drilling did not pay off. The first 7 mm drilled disc failed the stress gate (SF 1.26, [preserved outputs](examples/rejected-drilled/)), and passing required 9 mm, making the drilled disc 26% heavier than the baseline. Because convection is prescribed, the model cannot credit drilling with any airflow cooling benefit.
+
 Material properties are explicitly assumed **generic steel** values, not certified rotor-alloy data. See [configuration](configs/kart.json) and [methodology](docs/methodology.md).
 
 ## Verification and interpretation
@@ -165,7 +172,7 @@ Heating is averaged around the swept annulus; bolt-hole surfaces form an idealiz
 configs/                 Requirements, material, variants and limits
 src/brakedisc/           Sizing, CAD, mesh, solver, reports and CLI
 tests/                   Physics, validation, parser and integration tests
-docs/                    Methodology, verification and evaluation guide
+docs/                    Methodology and verification evidence
 examples/study/          Committed results from the verified sweep
 examples/convergence/    Committed mesh-sensitivity results
 .github/workflows/       Continuous engineering verification
@@ -175,8 +182,6 @@ results/                Regenerated complete outputs (git-ignored)
 Each variant produces STEP, DXF and SVG geometry, `.msh`/`.npz` meshes, cold/thermal/hot `.inp` decks and solver outputs, cold/hot `.vtu` fields, plots and `thermal_history.csv`. The study adds `report.html`, JSON/CSV comparisons, trade-off plots, resolved inputs and SHA-256 artifact hashes. Native `.msh` coordinates are in **mm**; solver, NumPy and VTU coordinates are in **m**.
 
 Large regenerated solver outputs are downloadable CI artifacts. From [Actions](https://github.com/octahedralnuke/brake-disc-design-pipeline/actions), download `brake-disc-study`, extract it and open the report.
-
-For a live demonstration, follow the [evaluation guide](docs/evaluation-guide.md). [Submission notes](docs/submission-notes.md) map project claims to implementation files.
 
 ## References
 
