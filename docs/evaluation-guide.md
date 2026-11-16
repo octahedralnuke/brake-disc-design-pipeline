@@ -51,9 +51,3 @@ Analytical patches, conservation and mesh sensitivity provide numerical verifica
 **What would come next?**
 
 Measured temperature-dependent material properties; measured/calibrated heat partition and convection; hub/bolt compliance; moving pad contact; repeated-stop fatigue; and physical temperature/strain measurements.
-
-## Claim wording that matches the implementation
-
-> Developed a Python pipeline that sizes kart brake loads, generates parameterized CadQuery disc variants, meshes STEP geometry in Gmsh, and runs CalculiX static and transient thermal analyses. Added CI gates for stress, temperature and numerical consistency, with STEP/DXF/SVG exports and an automated design trade-off report.
-
-Use the actual implementation, results and limitations when explaining the project. The documentation is designed to make those details inspectable.

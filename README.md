@@ -10,6 +10,8 @@ A working engineering automation project that turns kart braking requirements in
 
 ![Mass–temperature–stress comparison](docs/assets/tradeoff.png)
 
+Each dot is one analysed disc design. The horizontal axis shows disc mass, the vertical axis shows peak temperature, and colour shows peak von Mises stress: blue is lower stress and yellow is higher stress. The lightweight disc saves mass but reaches a higher temperature. The thicker, 9 mm drilled disc has more thermal mass and a lower peak temperature, while its holes create local stress concentrations. The baseline has the lowest peak stress of these three designs. All three meet the configured screening limits. The plotted values are saved in [the results CSV](examples/study/tradeoff.csv).
+
 ## Features
 
 - Calculates brake torque, pad normal forces, stopping time, braking energy and analytical mean temperature rise.
@@ -140,6 +142,8 @@ All variants have a 200 mm outside diameter, 40 mm bore, six Ø8 mm bolt holes o
 These values are captured CalculiX results, not illustrative chart data. Open [the saved report](examples/study/report.html) after downloading the repository, or inspect [the numeric summary](examples/study/summary.json).
 
 ![Baseline temperature and stress fields](docs/assets/baseline-fields.png)
+
+The left panel maps temperature across the baseline disc at its thermal peak; the right panel maps von Mises stress in the hot structural case. Each colour bar gives the corresponding values and units. The fields show where heating and stress concentrate within the disc.
 <!-- VERIFIED_RESULTS_END -->
 
 Material properties are explicitly assumed **generic steel** values, not certified rotor-alloy data. See [configuration](configs/kart.json) and [methodology](docs/methodology.md).
