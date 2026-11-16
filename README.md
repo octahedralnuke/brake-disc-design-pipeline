@@ -57,6 +57,16 @@ brakedisc run
 
 Open **`results/report.html`** in a browser; no server is required. Real solver runs take several minutes. Repeat with `brakedisc run --overwrite`; only a marked, previously generated run directory can be replaced.
 
+If your system Python is newer than 3.12, use [uv](https://docs.astral.sh/uv/getting-started/installation/) to obtain an isolated compatible runtime:
+
+```bash
+uv venv --python 3.11 .venv
+source .venv/bin/activate
+uv pip sync requirements.lock
+uv pip install --no-deps -e .
+brakedisc run
+```
+
 For a custom solver location, set `CCX` to its executable path.
 
 ### Container option
