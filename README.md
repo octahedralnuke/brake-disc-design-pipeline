@@ -14,6 +14,7 @@ Each dot is one analysed disc design. The horizontal axis shows disc mass, the v
 
 ## Features
 
+- Checks the requested deceleration against the braked axle's tyre-grip limit, including load transfer.
 - Calculates brake torque, pad normal forces, stopping time, braking energy and analytical mean temperature rise.
 - Builds solid and drilled disc variants in CadQuery; exports STEP solids, DXF profiles and dimensioned SVG drawings.
 - Imports and partitions STEP geometry in Gmsh, selects physical surfaces and creates conforming quadratic tetrahedral meshes.
@@ -115,11 +116,17 @@ The latter runs actual CAD and FEA and is expected to exit with status 2. Its re
 
 ## Default study
 
+The inputs are typical assumed values for a student-built kart with a single rear disc, not measured data from a specific vehicle.
+
 | Input | Value |
 |---|---:|
 | Kart + driver mass | 180 kg |
 | Initial speed | 70 km/h |
-| Constant deceleration | 7 m/s² |
+| CG height / wheelbase | 0.30 m / 1.05 m |
+| Static rear weight | 60% |
+| Tyre–road friction coefficient | 1.0 |
+| Braked axle | Rear only |
+| Design deceleration | 4.5 m/s² (rear-grip limit 4.58 m/s²) |
 | Wheel rolling radius | 0.14 m |
 | Brake share / discs | 100% / 1 |
 | Pad friction coefficient | 0.40 |
@@ -128,16 +135,16 @@ The latter runs actual CAD and FEA and is expected to exit with status 2. Its re
 | Assumed convection coefficient | 30 W/(m²·K) |
 | Cooling after stop | 8 s |
 
-These give **176.4 N·m**, **5,400 N total normal force across both pads**, a **2.778 s** stop and **30.625 kJ** of disc heat. Uniform annular pressure gives an effective friction radius of 81.667 mm.
+With rear-only braking, load transfer limits deceleration to **4.58 m/s² (0.47 g)**, so the design case uses 4.5 m/s² (98% tyre friction utilisation). Asking this kart for 7 m/s² fails the `tyre_grip` check. These inputs give **113.4 N·m**, **3,471 N total normal force across both pads**, a **4.321 s** stop and **30.625 kJ** of disc heat. Uniform annular pressure gives an effective friction radius of 81.667 mm.
 
 All variants have a 200 mm outside diameter, 40 mm bore, six Ø8 mm bolt holes on a 70 mm PCD and a swept annulus from R60 to R100 mm. Baseline thickness is 7 mm; lightweight thickness is 6 mm; the drilled disc is 9 mm thick with twelve Ø8 mm holes on a 160 mm PCD.
 
 <!-- VERIFIED_RESULTS_START -->
 | Variant | Mass / kg | Peak / °C | Stress / MPa | Safety factor | Result |
 |---|---:|---:|---:|---:|---|
-| baseline | 1.641 | 84.3 | 122.2 | 2.05 | PASS |
-| lightweight | 1.406 | 93.4 | 144.3 | 1.73 | PASS |
-| drilled | 2.067 | 74.4 | 163.3 | 1.53 | PASS |
+| baseline | 1.641 | 83.4 | 121.7 | 2.05 | PASS |
+| lightweight | 1.406 | 92.7 | 143.6 | 1.74 | PASS |
+| drilled | 2.067 | 72.6 | 157.1 | 1.59 | PASS |
 
 These values are captured CalculiX results, not illustrative chart data. Open [the saved report](examples/study/report.html) after downloading the repository, or inspect [the numeric summary](examples/study/summary.json).
 
@@ -148,10 +155,12 @@ The left panel maps temperature across the baseline disc at its thermal peak; th
 
 ### Design decision
 
+Peak stress comes mainly from thermal expansion, not braking torque: the cold torque-only case stays below 10 MPa, and reducing the design deceleration from 7 to 4.5 m/s² changed baseline peak stress by less than 1%. Disc thermal mass therefore drives the design.
+
 For this single-stop load case the **7 mm solid baseline is recommended**. It has the largest margin (SF 2.05) at 1.64 kg.
 
-- The 6 mm lightweight disc saves 0.24 kg (14%) and still passes at SF 1.73, but peaks 9 °C hotter. Repeated stops, which this model does not simulate, would widen that gap, so the extra margin of the baseline is kept.
-- Drilling did not pay off. The first 7 mm drilled disc failed the stress gate (SF 1.26, [preserved outputs](examples/rejected-drilled/)), and passing required 9 mm, making the drilled disc 26% heavier than the baseline. Because convection is prescribed, the model cannot credit drilling with any airflow cooling benefit.
+- The 6 mm lightweight disc saves 0.24 kg (14%) and still passes at SF 1.74, but peaks 9 °C hotter. Repeated stops, which this model does not simulate, would widen that gap, so the extra margin of the baseline is kept.
+- Drilling did not pay off. The 7 mm drilled disc fails the stress gate (SF 1.30, [preserved outputs](examples/rejected-drilled/)), and passing required 9 mm, making the drilled disc 26% heavier than the baseline. Because convection is prescribed, the model cannot credit drilling with any airflow cooling benefit.
 
 Material properties are explicitly assumed **generic steel** values, not certified rotor-alloy data. See [configuration](configs/kart.json) and [methodology](docs/methodology.md).
 
@@ -162,7 +171,7 @@ Material properties are explicitly assumed **generic steel** values, not certifi
 - A separate three-mesh study compares temperature rise, swept-region stress and displacement. The raw global stress maximum is also reported. [Verification evidence](docs/verification.md)
 - Invalid geometry, incomplete output, nonfinite data and solver failures cannot silently pass.
 
-Safety factor is assumed yield strength divided by the maximum integration-point von Mises stress across the cold/hot envelope, including the idealized mount. Default limits are SF ≥ 1.5 and temperature ≤ 250 °C, plus numerical consistency criteria. These are project screening settings.
+Safety factor is assumed yield strength divided by the maximum integration-point von Mises stress across the cold/hot envelope, including the idealized mount. Default limits are SF ≥ 1.5, temperature ≤ 250 °C and tyre friction utilisation ≤ 1, plus numerical consistency criteria. These are project screening settings.
 
 Heating is averaged around the swept annulus; bolt-hole surfaces form an idealized rigid mount. Local moving pad contact, brake fade, repeated-stop fatigue, wear, fluid flow and bolt flexibility are outside the model. Drawings contain nominal dimensions without assigned manufacturing tolerances. Results support educational design screening.
 
