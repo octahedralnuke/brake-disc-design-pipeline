@@ -4,7 +4,20 @@
 
 This workflow compares flat steel kart discs under a prescribed single-stop requirement. Geometry parameters and CadQuery/Gmsh CAD models use mm. Coordinates are explicitly multiplied by `1e-3` before generating CalculiX decks. Analysis uses m, kg, s, N, Pa, W and J. Temperatures use °C consistently, with thermal strain referenced to initial temperature. Radiation is omitted.
 
-The selected deceleration is an input requirement. Tyre grip, rear-axle load transfer, hydraulic pedal effort and service life are not predicted.
+The selected deceleration is an input requirement, checked against the tyre-grip limit of the braked axle (below). Hydraulic pedal effort and service life are not predicted.
+
+## Tyre-grip limit
+
+A disc only sees as much torque as the tyres can transmit, so the requested deceleration is checked before the disc is sized. Let `g` be standard gravity, `h` CG height, `L` wheelbase, `f` static rear weight fraction and `mu_t` tyre-road friction. Braking transfers load `M a h / L` from the rear to the front axle:
+
+```text
+N_rear = M (g f - a h / L)
+a_max  = mu_t g f / (1 + mu_t h / L)     rear-axle braking
+a_max  = mu_t g                          all-wheel braking
+u      = M a / (mu_t N_braked)           tyre friction utilisation
+```
+
+The `tyre_grip` criterion requires `u <= 1`; a requested deceleration that unloads the braked axle completely is rejected. The default kart brakes the rear axle only, so `a_max` is 4.58 m/s² (0.47 g) and the design deceleration is set just below it at 4.5 m/s². A 7 m/s² request on the same kart fails this check, although it would be achievable with all-wheel braking. The quasi-static model ignores suspension and tyre dynamics, and tyre friction is an assumed value.
 
 ## Braking calculations
 

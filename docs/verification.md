@@ -17,11 +17,11 @@ These small verification problems do not establish experimental accuracy for a r
 
 ## Thermal solver comparison
 
-The revised 9 mm drilled disc was also solved with both direct SPOOLES and `ITERATIVE SCALING`, using identical mesh, material, loads and time increments. Across **100 snapshots × 47,848 nodes**, the maximum printed temperature difference was **0.00001 °C**, below the 0.001 °C comparison tolerance. See [the recorded comparison](../examples/verification/direct-vs-iterative.json). The iterative solver is used by the pipeline for the linear thermal system; structural analyses retain the default direct solver.
+The revised 9 mm drilled disc was also solved with both direct SPOOLES and `ITERATIVE SCALING` (recorded under the earlier 7 m/s² load case; solver settings are unchanged), using identical mesh, material, loads and time increments. Across **100 snapshots × 47,848 nodes**, the maximum printed temperature difference was **0.00001 °C**, below the 0.001 °C comparison tolerance. See [the recorded comparison](../examples/verification/direct-vs-iterative.json). The iterative solver is used by the pipeline for the linear thermal system; structural analyses retain the default direct solver.
 
 ## Test coverage
 
-The reference test suite has **41 passing tests**. It covers hand-calculated braking loads, energy scaling, heat partition, CAD feature validation, quadratic integration, von Mises stress states, parser corruption, missing/duplicate nodes, unavailable solvers, safe output replacement, failed acceptance criteria, real drilled-disc CAD/mesh selection and the analytical solver benchmarks. Ruff and Python byte-compilation checks also pass.
+The reference test suite has **49 passing tests**. It covers hand-calculated braking loads, the rear-axle tyre-grip limit and its rejection of a 7 m/s² request, energy scaling, heat partition, CAD feature validation, quadratic integration, von Mises stress states, parser corruption, missing/duplicate nodes, unavailable solvers, safe output replacement, failed acceptance criteria, real drilled-disc CAD/mesh selection and the analytical solver benchmarks. Ruff and Python byte-compilation checks also pass.
 
 ## Mesh sensitivity
 
@@ -32,11 +32,11 @@ Global peak stress is retained in the table and remains the design gate's stress
 <!-- CONVERGENCE_RESULTS_START -->
 | Target / mm | Elements | Peak / °C | Swept stress / MPa | Global stress / MPa | Displacement / mm |
 |---:|---:|---:|---:|---:|---:|
-| 6 | 10171 | 84.236 | 95.610 | 122.852 | 0.042204 |
-| 5 | 13208 | 84.222 | 95.432 | 121.857 | 0.042080 |
-| 4 | 22076 | 84.341 | 96.964 | 122.162 | 0.042206 |
+| 6 | 10171 | 83.317 | 88.722 | 122.422 | 0.042360 |
+| 5 | 13208 | 83.302 | 88.470 | 122.120 | 0.042361 |
+| 4 | 22076 | 83.351 | 89.385 | 121.737 | 0.042361 |
 
-Two finest meshes: swept-stress change **1.580%**, temperature-rise change **0.201%**, displacement change **0.297%**. Result: **PASS**.
+Two finest meshes: swept-stress change **1.023%**, temperature-rise change **0.084%**, displacement change **0.001%**. Result: **PASS**.
 
 ![Mesh sensitivity](assets/convergence.png)
 <!-- CONVERGENCE_RESULTS_END -->
@@ -60,6 +60,6 @@ The source is not renormalized to conceal time-integration error. The energy CSV
 
 Python 3.11.14, CadQuery 2.6.1, Gmsh 4.14.1, CalculiX 2.21, NumPy 2.2.6, Matplotlib 3.10.3 and meshio 5.3.5 on Linux. Exact transitive dependencies are pinned with hashes in `requirements.lock`.
 
-Reference rejected case: 225.8 °C, 439.4 MPa, SF 0.57. Failed checks: safety_factor. See `examples/rejected/summary.json`.
+Reference rejected case: 223.9 °C, 434.5 MPa, SF 0.58. Failed checks: safety_factor. See `examples/rejected/summary.json`.
 
-The original 7 mm drilled design reached 198.2 MPa (SF 1.26) and was rejected. Its real solver outputs are preserved in `examples/rejected-drilled/`. Increasing that variant to 9 mm produces the passing result in the main comparison, with unchanged material, loads and acceptance criteria.
+The 7 mm drilled design reaches 192.0 MPa (SF 1.30) and is rejected. Its real solver outputs are preserved in `examples/rejected-drilled/`. Increasing that variant to 9 mm produces the passing result in the main comparison, with unchanged material, loads and acceptance criteria.

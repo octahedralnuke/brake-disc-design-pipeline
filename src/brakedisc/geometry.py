@@ -32,7 +32,7 @@ def build(d: Design, folder: Path):
 
 
 def drawing(d: Design, path: Path):
-    """Drawing uses model dimensions directly; evaluation drawing, no invented tolerances."""
+    """Drawing uses model dimensions directly; concept drawing, no invented tolerances."""
     scale, cx, cy = 1.7, 245, 255
     ro, ri = d.outer_diameter_mm / 2 * scale, d.bore_diameter_mm / 2 * scale
     parts = ['<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="650" viewBox="0 0 1000 650">',
@@ -40,7 +40,7 @@ def drawing(d: Design, path: Path):
              '<style>text{font-family:Arial,sans-serif;fill:#142639} .edge{fill:none;stroke:#142639;stroke-width:1.8} .dim{fill:none;stroke:#52718b;stroke-width:1} .dash{stroke-dasharray:7 5}</style>',
              '<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M8 0L0 4L8 8" fill="none" stroke="#52718b"/></marker></defs>',
              f'<text x="45" y="42" font-size="25" font-weight="bold">BRAKE DISC / {d.name.upper()}</text>',
-             '<text x="45" y="65" font-size="13">Dimensioned evaluation drawing · dimensions in mm · do not scale</text>']
+             '<text x="45" y="65" font-size="13">Dimensioned concept drawing · dimensions in mm · do not scale</text>']
 
     def circle(x, y, r, cls="edge"):
         parts.append(f'<circle cx="{x}" cy="{y}" r="{r}" class="{cls}"/>')

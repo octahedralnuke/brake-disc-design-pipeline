@@ -17,7 +17,9 @@ from .solver import find_ccx, structural, thermal
 
 
 def evaluate(result, limits):
+    utilisation = result["requirements"]["tyre_friction_utilisation"]
     tests = {
+        "tyre_grip": utilisation is not None and utilisation <= 1,
         "safety_factor": result["safety_factor"] >= limits["min_safety_factor"],
         "temperature": result["peak_temperature_c"] <= limits["max_temperature_c"],
         "cad_mesh_volume": result["volume_error_fraction"] <= limits["max_volume_error_fraction"],

@@ -2,7 +2,7 @@
   "scenario": {
     "mass_kg": 180.0,
     "speed_kmh": 70.0,
-    "deceleration_m_s2": 7.0,
+    "deceleration_m_s2": 4.5,
     "wheel_radius_m": 0.14,
     "brake_share": 1.0,
     "disc_count": 1,
@@ -10,7 +10,12 @@
     "disc_heat_fraction": 0.9,
     "ambient_c": 25.0,
     "cooling_s": 8.0,
-    "convection_w_m2k": 30.0
+    "convection_w_m2k": 30.0,
+    "cg_height_m": 0.3,
+    "wheelbase_m": 1.05,
+    "rear_weight_fraction": 0.6,
+    "tyre_friction": 1.0,
+    "braked_axle": "rear"
   },
   "material": {
     "name": "Generic steel (illustrative constant properties)",
@@ -31,32 +36,6 @@
   },
   "mesh_mm": 4.0,
   "variants": [
-    {
-      "name": "baseline",
-      "outer_diameter_mm": 200.0,
-      "thickness_mm": 7.0,
-      "bore_diameter_mm": 40.0,
-      "bolt_pcd_mm": 70.0,
-      "bolt_count": 6,
-      "bolt_diameter_mm": 8.0,
-      "sweep_inner_radius_mm": 60.0,
-      "drill_count": 0,
-      "drill_diameter_mm": 0.0,
-      "drill_pcd_mm": 160.0
-    },
-    {
-      "name": "lightweight",
-      "outer_diameter_mm": 200.0,
-      "thickness_mm": 6.0,
-      "bore_diameter_mm": 40.0,
-      "bolt_pcd_mm": 70.0,
-      "bolt_count": 6,
-      "bolt_diameter_mm": 8.0,
-      "sweep_inner_radius_mm": 60.0,
-      "drill_count": 0,
-      "drill_diameter_mm": 0.0,
-      "drill_pcd_mm": 160.0
-    },
     {
       "name": "drilled",
       "outer_diameter_mm": 200.0,
