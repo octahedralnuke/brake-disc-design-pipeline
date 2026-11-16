@@ -1,0 +1,74 @@
+{
+  "scenario": {
+    "mass_kg": 180.0,
+    "speed_kmh": 70.0,
+    "deceleration_m_s2": 7.0,
+    "wheel_radius_m": 0.14,
+    "brake_share": 1.0,
+    "disc_count": 1,
+    "pad_friction": 0.4,
+    "disc_heat_fraction": 0.9,
+    "ambient_c": 25.0,
+    "cooling_s": 8.0,
+    "convection_w_m2k": 30.0
+  },
+  "material": {
+    "name": "Generic steel (illustrative constant properties)",
+    "density_kg_m3": 7850.0,
+    "youngs_pa": 200000000000.0,
+    "poisson": 0.3,
+    "yield_pa": 250000000.0,
+    "conductivity_w_mk": 45.0,
+    "specific_heat_j_kgk": 470.0,
+    "expansion_per_k": 1.2e-05
+  },
+  "limits": {
+    "min_safety_factor": 1.5,
+    "max_temperature_c": 250.0,
+    "max_volume_error_fraction": 0.01,
+    "max_energy_error_fraction": 0.02,
+    "max_reaction_torque_error_fraction": 0.01
+  },
+  "mesh_mm": 4.0,
+  "variants": [
+    {
+      "name": "baseline",
+      "outer_diameter_mm": 200.0,
+      "thickness_mm": 7.0,
+      "bore_diameter_mm": 40.0,
+      "bolt_pcd_mm": 70.0,
+      "bolt_count": 6,
+      "bolt_diameter_mm": 8.0,
+      "sweep_inner_radius_mm": 60.0,
+      "drill_count": 0,
+      "drill_diameter_mm": 0.0,
+      "drill_pcd_mm": 160.0
+    },
+    {
+      "name": "lightweight",
+      "outer_diameter_mm": 200.0,
+      "thickness_mm": 6.0,
+      "bore_diameter_mm": 40.0,
+      "bolt_pcd_mm": 70.0,
+      "bolt_count": 6,
+      "bolt_diameter_mm": 8.0,
+      "sweep_inner_radius_mm": 60.0,
+      "drill_count": 0,
+      "drill_diameter_mm": 0.0,
+      "drill_pcd_mm": 160.0
+    },
+    {
+      "name": "drilled",
+      "outer_diameter_mm": 200.0,
+      "thickness_mm": 9.0,
+      "bore_diameter_mm": 40.0,
+      "bolt_pcd_mm": 70.0,
+      "bolt_count": 6,
+      "bolt_diameter_mm": 8.0,
+      "sweep_inner_radius_mm": 60.0,
+      "drill_count": 12,
+      "drill_diameter_mm": 8.0,
+      "drill_pcd_mm": 160.0
+    }
+  ]
+}

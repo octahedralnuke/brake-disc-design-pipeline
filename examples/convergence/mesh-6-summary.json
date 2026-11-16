@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-16T06:20:24.010176+00:00",
+  "config_sha256": "26f3e6b77adb990400d2119fc83f842caaeb0145e4f694f56d0be6515941984f",
+  "mesh_mm": 6.0,
+  "limits": {
+    "min_safety_factor": 1.5,
+    "max_temperature_c": 250.0,
+    "max_volume_error_fraction": 0.01,
+    "max_energy_error_fraction": 0.02,
+    "max_reaction_torque_error_fraction": 0.01
+  },
+  "scenario": {
+    "mass_kg": 180.0,
+    "speed_kmh": 70.0,
+    "deceleration_m_s2": 7.0,
+    "wheel_radius_m": 0.14,
+    "brake_share": 1.0,
+    "disc_count": 1,
+    "pad_friction": 0.4,
+    "disc_heat_fraction": 0.9,
+    "ambient_c": 25.0,
+    "cooling_s": 8.0,
+    "convection_w_m2k": 30.0
+  },
+  "material": {
+    "name": "Generic steel (illustrative constant properties)",
+    "density_kg_m3": 7850.0,
+    "youngs_pa": 200000000000.0,
+    "poisson": 0.3,
+    "yield_pa": 250000000.0,
+    "conductivity_w_mk": 45.0,
+    "specific_heat_j_kgk": 470.0,
+    "expansion_per_k": 1.2e-05
+  },
+  "results": [
+    {
+      "name": "baseline",
+      "design": {
+        "name": "baseline",
+        "outer_diameter_mm": 200.0,
+        "thickness_mm": 7.0,
+        "bore_diameter_mm": 40.0,
+        "bolt_pcd_mm": 70.0,
+        "bolt_count": 6,
+        "bolt_diameter_mm": 8.0,
+        "sweep_inner_radius_mm": 60.0,
+        "drill_count": 0,
+        "drill_diameter_mm": 0.0,
+        "drill_pcd_mm": 160.0
+      },
+      "requirements": {
+        "speed_m_s": 19.444444444444443,
+        "stop_time_s": 2.7777777777777777,
+        "stop_distance_m": 27.00617283950617,
+        "disc_torque_nm": 176.4,
+        "effective_radius_m": 0.08166666666666667,
+        "total_pad_normal_force_n": 5400.0,
+        "normal_force_per_pad_n": 2700.0,
+        "disc_energy_j": 30624.999999999996,
+        "initial_disc_power_w": 22049.999999999996,
+        "analytical_mass_kg": 1.640680427055471,
+        "adiabatic_mean_rise_k": 39.714970321811535
+      },
+      "mass_kg": 1.6406804270554711,
+      "nodes": 19951,
+      "elements": 10171,
+      "minimum_sampled_jacobian_m3": 3.3301875538889964e-09,
+      "volume_error_fraction": 4.58973745187663e-06,
+      "peak_temperature_c": 84.23591,
+      "peak_temperature_time_s": 2.430556,
+      "energy_error_fraction": 0.012543895861902039,
+      "cold_stress_mpa": 12.30628689447858,
+      "hot_stress_mpa": 122.85182922852005,
+      "hot_swept_stress_mpa": 95.61042674597755,
+      "peak_stress_mpa": 122.85182922852005,
+      "safety_factor": 2.034971734405095,
+      "max_displacement_mm": 0.042204265976496076,
+      "reaction_torque_error_fraction": 6.895895490813107e-08,
+      "cold_reaction_torque_nm": -176.3999999854509,
+      "hot_reaction_torque_nm": -176.39998783564036,
+      "solver_completed": true,
+      "checks": {
+        "safety_factor": true,
+        "temperature": true,
+        "cad_mesh_volume": true,
+        "thermal_energy_balance": true,
+        "reaction_torque": true,
+        "solver_completed": true
+      },
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "passed": true,
+  "software": {
+    "cadquery": "2.6.1",
+    "gmsh": "4.14.1",
+    "numpy": "2.2.6",
+    "matplotlib": "3.10.3",
+    "meshio": "5.3.5",
+    "python": "3.11.14",
+    "calculix": "This is Version 2.21"
+  },
+  "git_commit": null
+}

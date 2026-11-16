@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-16T06:32:06.578847+00:00",
+  "config_sha256": "26f3e6b77adb990400d2119fc83f842caaeb0145e4f694f56d0be6515941984f",
+  "mesh_mm": 4.0,
+  "limits": {
+    "min_safety_factor": 1.5,
+    "max_temperature_c": 250.0,
+    "max_volume_error_fraction": 0.01,
+    "max_energy_error_fraction": 0.02,
+    "max_reaction_torque_error_fraction": 0.01
+  },
+  "scenario": {
+    "mass_kg": 180.0,
+    "speed_kmh": 70.0,
+    "deceleration_m_s2": 7.0,
+    "wheel_radius_m": 0.14,
+    "brake_share": 1.0,
+    "disc_count": 1,
+    "pad_friction": 0.4,
+    "disc_heat_fraction": 0.9,
+    "ambient_c": 25.0,
+    "cooling_s": 8.0,
+    "convection_w_m2k": 30.0
+  },
+  "material": {
+    "name": "Generic steel (illustrative constant properties)",
+    "density_kg_m3": 7850.0,
+    "youngs_pa": 200000000000.0,
+    "poisson": 0.3,
+    "yield_pa": 250000000.0,
+    "conductivity_w_mk": 45.0,
+    "specific_heat_j_kgk": 470.0,
+    "expansion_per_k": 1.2e-05
+  },
+  "results": [
+    {
+      "name": "drilled",
+      "design": {
+        "name": "drilled",
+        "outer_diameter_mm": 200.0,
+        "thickness_mm": 7.0,
+        "bore_diameter_mm": 40.0,
+        "bolt_pcd_mm": 70.0,
+        "bolt_count": 6,
+        "bolt_diameter_mm": 8.0,
+        "sweep_inner_radius_mm": 60.0,
+        "drill_count": 12,
+        "drill_diameter_mm": 8.0,
+        "drill_pcd_mm": 160.0
+      },
+      "requirements": {
+        "speed_m_s": 19.444444444444443,
+        "stop_time_s": 2.7777777777777777,
+        "stop_distance_m": 27.00617283950617,
+        "disc_torque_nm": 176.4,
+        "effective_radius_m": 0.08166666666666667,
+        "total_pad_normal_force_n": 5400.0,
+        "normal_force_per_pad_n": 2700.0,
+        "disc_energy_j": 30624.999999999996,
+        "initial_disc_power_w": 22049.999999999996,
+        "analytical_mass_kg": 1.607535367923037,
+        "adiabatic_mean_rise_k": 40.53383568927157
+      },
+      "mass_kg": 1.6075353679230384,
+      "nodes": 49488,
+      "elements": 26902,
+      "minimum_sampled_jacobian_m3": 3.0130207001627017e-09,
+      "volume_error_fraction": 1.364651566504449e-05,
+      "peak_temperature_c": 86.17207,
+      "peak_temperature_time_s": 2.430556,
+      "energy_error_fraction": 0.012546358669486982,
+      "cold_stress_mpa": 12.305555389660803,
+      "hot_stress_mpa": 198.16706710976393,
+      "hot_swept_stress_mpa": 198.16706710976393,
+      "peak_stress_mpa": 198.16706710976393,
+      "safety_factor": 1.2615617904943106,
+      "max_displacement_mm": 0.043804736081448435,
+      "reaction_torque_error_fraction": 7.850248108909305e-08,
+      "cold_reaction_torque_nm": -176.39999801258296,
+      "hot_reaction_torque_nm": -176.40001384783767,
+      "solver_completed": true,
+      "checks": {
+        "safety_factor": false,
+        "temperature": true,
+        "cad_mesh_volume": true,
+        "thermal_energy_balance": true,
+        "reaction_torque": true,
+        "solver_completed": true
+      },
+      "passed": false
+    }
+  ],
+  "errors": [],
+  "passed": false,
+  "software": {
+    "cadquery": "2.6.1",
+    "gmsh": "4.14.1",
+    "numpy": "2.2.6",
+    "matplotlib": "3.10.3",
+    "meshio": "5.3.5",
+    "python": "3.11.14",
+    "calculix": "This is Version 2.21"
+  },
+  "source_sha256": {
+    "__init__.py": "390be869992ecba39b08d5a6dd27154cd0d59070e5ba477a4e3a3d84ea55e5a9",
+    "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "cli.py": "b258a80b05ad8b71646a40851fa0b1983643b8a8cfb133b4ac38afd1aaa6b516",
+    "convergence.py": "05eba8f913cbbe1d640bd4754b5a723cfaf39e469bf977fc19572da181820253",
+    "geometry.py": "6a85db3992ecf54a99790814a058f5b83b6489dc9c66cc5b222cf3d06556001f",
+    "mesh.py": "c793e6746c6e9f1142c3996823c7124d92c27783b3ee07260bd3e2bcd33442b1",
+    "model.py": "7af0a2948608a4a4aab169de1cfd8412a45f885acf38e9ef3eaf6bf0100c84ca",
+    "pipeline.py": "1b54c024806ff8d6b3121540b6eb3f13943116891557d2a89ff80d8c40f121c5",
+    "report.py": "bd107187a8dd87473f40fb8816eb997d9bb07dce7c18916aa14f8f935c9d1a20",
+    "solver.py": "26a1e98953bc89a12eaed8f488c87835848831c4263d712d0d53407d5a5bd974",
+    "verification.py": "9cc09c08a4306b16659241b4726613bbe52078422f03ad3b4142f8357995b189"
+  },
+  "git_commit": "6ca2df2241b7e12e4ed7bce930f7bf569872acb9"
+}

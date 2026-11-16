@@ -1,0 +1,42 @@
+{
+  "rows": [
+    {
+      "nodes": 19951,
+      "elements": 10171,
+      "peak_temperature_c": 84.23591,
+      "peak_stress_mpa": 122.85182922852005,
+      "hot_swept_stress_mpa": 95.61042674597755,
+      "max_displacement_mm": 0.042204265976496076,
+      "mesh_mm": 6.0
+    },
+    {
+      "nodes": 25772,
+      "elements": 13208,
+      "peak_temperature_c": 84.22219,
+      "peak_stress_mpa": 121.85707053525162,
+      "hot_swept_stress_mpa": 95.43207818177667,
+      "max_displacement_mm": 0.04208021188303377,
+      "mesh_mm": 5.0
+    },
+    {
+      "nodes": 40642,
+      "elements": 22076,
+      "peak_temperature_c": 84.34126,
+      "peak_stress_mpa": 122.16185325100477,
+      "hot_swept_stress_mpa": 96.96390403526496,
+      "max_displacement_mm": 0.04220556449965029,
+      "mesh_mm": 4.0
+    }
+  ],
+  "swept_stress_change_fraction": 0.015797897874771767,
+  "temperature_rise_change_fraction": 0.002006529689460719,
+  "displacement_change_fraction": 0.002970049520781925,
+  "raw_peak_stress_change_fraction": 0.0024949090705665257,
+  "criteria": {
+    "swept_stress": 0.05,
+    "temperature_rise": 0.02,
+    "displacement": 0.05
+  },
+  "note": "Compare the two finest meshes. Swept-region stress excludes the idealized mount. Raw global peak remains reported and controls each design safety check.",
+  "passed": true
+}

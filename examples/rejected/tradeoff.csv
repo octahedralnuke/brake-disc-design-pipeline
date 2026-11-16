@@ -1,0 +1,2 @@
+name,mass_kg,peak_temperature_c,peak_stress_mpa,safety_factor,max_displacement_mm,nodes,elements,energy_error_fraction,passed
+rejected-thin,0.46876583630156304,225.7852,439.4368003806465,0.5689100225184746,0.1477928194875767,50004,24889,0.012641424171402885,False

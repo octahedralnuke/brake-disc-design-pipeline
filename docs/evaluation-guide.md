@@ -34,6 +34,12 @@ An exceeded stress/temperature criterion, a numerical consistency failure, inval
 
 No. Drilling reduces thermal mass and changes the heated and exposed areas. This model uses prescribed convection, so it cannot claim an aerodynamic cooling improvement from hole-induced flow.
 
+The initial 7 mm drilled disc was rejected at 198.2 MPa (SF 1.26). Its outputs are preserved in `examples/rejected-drilled/`. The revised thickness is 9 mm, with the same loads, material and limits. To reproduce the original rejected design, run:
+
+```bash
+brakedisc run --config examples/rejected-drilled/input.json --variant drilled --out results-original-drilled
+```
+
 **Why are the bolt holes fixed?**
 
 It is an explicit rigid-mount idealization for comparing geometries. Real bolt/hub compliance can change local stresses. Raw mount-region stress remains reported and conservatively controls the gate.

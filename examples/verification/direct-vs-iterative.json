@@ -1,0 +1,9 @@
+{
+  "case": "9 mm drilled disc; same mesh, loads, material and time increments",
+  "compared_snapshots": 100,
+  "nodes_per_snapshot": 47848,
+  "maximum_nodal_temperature_difference_c": 1.0000000003174137e-05,
+  "comparison_tolerance_c": 0.001,
+  "passed": true,
+  "note": "Comparison uses CalculiX DAT printed precision."
+}

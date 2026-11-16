@@ -131,7 +131,15 @@ These give **176.4 N·m**, **5,400 N total normal force across both pads**, a **
 All variants have a 200 mm outside diameter, 40 mm bore, six Ø8 mm bolt holes on a 70 mm PCD and a swept annulus from R60 to R100 mm. Baseline thickness is 7 mm; lightweight thickness is 6 mm; the drilled disc is 9 mm thick with twelve Ø8 mm holes on a 160 mm PCD.
 
 <!-- VERIFIED_RESULTS_START -->
-See `examples/study/summary.json` for verified results generated from the supplied configuration.
+| Variant | Mass / kg | Peak / °C | Stress / MPa | Safety factor | Result |
+|---|---:|---:|---:|---:|---|
+| baseline | 1.641 | 84.3 | 122.2 | 2.05 | PASS |
+| lightweight | 1.406 | 93.4 | 144.3 | 1.73 | PASS |
+| drilled | 2.067 | 74.4 | 163.3 | 1.53 | PASS |
+
+These values are captured CalculiX results, not illustrative chart data. Open [the saved report](examples/study/report.html) after downloading the repository, or inspect [the numeric summary](examples/study/summary.json).
+
+![Baseline temperature and stress fields](docs/assets/baseline-fields.png)
 <!-- VERIFIED_RESULTS_END -->
 
 Material properties are explicitly assumed **generic steel** values, not certified rotor-alloy data. See [configuration](configs/kart.json) and [methodology](docs/methodology.md).

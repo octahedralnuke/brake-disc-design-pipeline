@@ -1,0 +1,4 @@
+examples/** linguist-generated=true
+docs/assets/** linguist-generated=true
+*.png binary
+*.vtu binary

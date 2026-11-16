@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brake disc design study</title><style>
+body{font:16px/1.6 system-ui,sans-serif;color:#153047;background:#edf2f5;margin:0}
+main{max-width:1120px;margin:auto;padding:40px 24px}h1{font-size:38px;line-height:1.15}h2{margin-top:0}
+section,header{background:white;border-radius:12px;padding:28px;margin-bottom:24px}img{width:100%;height:auto}
+table{border-collapse:collapse;width:100%}td,th{padding:12px;text-align:left;border-bottom:1px solid #dde5ea}
+a{color:#086b99}.tag{display:inline-block;background:#ffded6;padding:5px 15px;border-radius:5px;font-weight:bold}
+.small{font-size:13px;color:#526778}.scroll{overflow-x:auto}</style><main>
+<header><p class="small">PYTHON / CADQUERY / GMSH / CALCULIX</p><h1>Brake disc design study</h1>
+<span class="tag">FAIL</span><p>Reproducible sizing, parametric geometry and finite element screening for a single kart stop.</p>
+<p class="small">Generated 2026-11-16T06:25:03.111920+00:00 · Mesh target 4 mm</p></header>
+<section><h2>Design comparison</h2><div class="scroll"><table><thead><tr><th>Variant</th><th>Mass / kg</th><th>Peak / °C</th><th>Stress / MPa</th><th>Safety factor</th><th>Checks</th></tr></thead><tbody><tr><td>rejected-thin</td><td>0.469</td><td>225.8</td><td>439.4</td><td>0.57</td><td>FAIL</td></tr></tbody></table></div>
+<img src='tradeoff.png' alt='Mass temperature stress trade-off'>
+<p><a href="tradeoff.csv">CSV</a> · <a href="summary.json">Full summary</a> · <a href="input.json">Resolved inputs</a> · <a href="manifest.sha256.json">Artifact hashes</a></p><ul></ul></section>
+<section><h2>Rejected-Thin</h2><p>safety_factor: FAIL, temperature: PASS, cad_mesh_volume: PASS, thermal_energy_balance: PASS, reaction_torque: PASS, solver_completed: PASS</p><img src="rejected-thin/fields.png" alt="Temperature and stress fields"><img src="rejected-thin/thermal_history.png" alt="Transient temperature history"><p><a href="rejected-thin/disc.step">STEP model</a> · <a href="rejected-thin/drawing.svg">Drawing</a> · <a href="rejected-thin/hot.vtu">ParaView result</a> · <a href="rejected-thin/result.json">Numeric results</a></p></section><section><h2>Interpretation</h2><p>Temperatures use a transient conduction model with prescribed, circumferentially averaged braking heat and assumed convection. Structural results envelope cold torque loading and the hottest thermal snapshot with full torque. Mounting-hole surfaces are idealized as rigidly fixed. Stress values are maxima at integration points, including the constrained mount region.</p>
+<p>Generic constant steel properties and a single stop support comparative educational screening. Fatigue, wear, pad contact, local moving hot spots, fluid flow, bolt flexibility and manufacturing qualification are outside the model. A passing calculation means the specified numerical criteria were met.</p></section></main></html>
