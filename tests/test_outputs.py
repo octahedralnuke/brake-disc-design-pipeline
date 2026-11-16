@@ -84,3 +84,17 @@ def test_missing_solver_fails(monkeypatch):
     monkeypatch.setenv("CCX", "definitely-no-such-solver")
     with pytest.raises(RuntimeError):
         find_ccx()
+
+
+@pytest.mark.parametrize("code,stdout,expected", [(201, "This is Version 2.21", 0),
+    (0, "unexpected output", 1), (127, "", 1)])
+def test_doctor_calculix_version_exit_convention(monkeypatch, code, stdout, expected):
+    from types import SimpleNamespace
+    import subprocess
+    import brakedisc.cli
+    import brakedisc.solver
+    monkeypatch.setattr(brakedisc.cli.importlib, "import_module", lambda _: SimpleNamespace(__version__="test"))
+    monkeypatch.setattr(brakedisc.solver, "find_ccx", lambda: "/fake/ccx")
+    monkeypatch.setattr(subprocess, "run", lambda *a, **kw: SimpleNamespace(
+        returncode=code, stdout=stdout, stderr=""))
+    assert main(["doctor"]) == expected

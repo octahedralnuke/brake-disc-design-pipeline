@@ -17,7 +17,7 @@ These small verification problems do not establish experimental accuracy for a r
 
 ## Test coverage
 
-The reference test suite has **38 passing tests**. It covers hand-calculated braking loads, energy scaling, heat partition, CAD feature validation, quadratic integration, von Mises stress states, parser corruption, missing/duplicate nodes, unavailable solvers, safe output replacement, failed acceptance criteria, real drilled-disc CAD/mesh selection and the analytical solver benchmarks. Ruff and Python byte-compilation checks also pass.
+The reference test suite has **41 passing tests**. It covers hand-calculated braking loads, energy scaling, heat partition, CAD feature validation, quadratic integration, von Mises stress states, parser corruption, missing/duplicate nodes, unavailable solvers, safe output replacement, failed acceptance criteria, real drilled-disc CAD/mesh selection and the analytical solver benchmarks. Ruff and Python byte-compilation checks also pass.
 
 ## Mesh sensitivity
 

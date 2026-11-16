@@ -43,7 +43,8 @@ def main(argv=None):
                 print(f"{package}: {getattr(module, '__version__', 'available')}")
             executable = find_ccx()
             version = subprocess.run([executable, "-v"], capture_output=True, text=True)
-            if version.returncode or "Version" not in version.stdout:
+            # Ubuntu's ccx -v prints a valid version and deliberately exits 201.
+            if version.returncode not in (0, 201) or "Version" not in version.stdout:
                 raise RuntimeError(f"CalculiX cannot execute: {version.stderr.strip()}")
             print(f"CalculiX: {executable} ({version.stdout.strip()})")
             return 0
