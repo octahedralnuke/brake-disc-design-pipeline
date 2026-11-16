@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brake-disc-design"
+version = "1.0.0"
+description = "Reproducible kart brake sizing, parametric CAD and CalculiX design studies"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = "MIT"
+dependencies = [
+  "cadquery==2.6.1", "gmsh==4.14.1", "numpy==2.2.6",
+  "matplotlib==3.10.3", "meshio==5.3.5",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==8.4.1", "ruff==0.12.1"]
+
+[project.scripts]
+brakedisc = "brakedisc.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: real CAD, meshing and CalculiX verification"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

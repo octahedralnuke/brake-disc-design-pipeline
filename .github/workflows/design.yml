@@ -1,0 +1,68 @@
+name: Design verification
+
+on:
+  push:
+    paths: ['src/**', 'tests/**', 'configs/**', 'scripts/**', 'pyproject.toml', 'requirements.lock', 'Dockerfile', '.github/workflows/**']
+  pull_request:
+    paths: ['src/**', 'tests/**', 'configs/**', 'scripts/**', 'pyproject.toml', 'requirements.lock', 'Dockerfile', '.github/workflows/**']
+  workflow_dispatch:
+    inputs:
+      convergence:
+        description: Also run the three-mesh convergence study
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: design-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Install solver and CAD system libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends calculix-ccx libglu1-mesa libgl1 libxrender1 libxext6
+      - name: Install pinned Python environment
+        run: |
+          python -m pip install -r requirements.lock
+          python -m pip install --no-deps -e .
+      - name: Check environment and code
+        run: |
+          brakedisc doctor
+          ruff check src tests
+          pytest -q
+      - name: Run all design variants and enforce limits
+        run: brakedisc run --out results
+      - name: Demonstrate a failing acceptance gate
+        run: python scripts/assert_gate_failure.py results/summary.json
+      - name: Optional mesh convergence
+        if: github.event_name == 'workflow_dispatch' && inputs.convergence
+        run: brakedisc converge --out results-convergence
+      - name: Publish numeric summary in Actions
+        if: always()
+        run: python scripts/actions_summary.py results/summary.json
+      - name: Upload models, solver decks, results and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: brake-disc-study
+          path: |
+            results/
+            results-convergence/
+          if-no-files-found: warn
+          retention-days: 14

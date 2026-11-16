@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "uniaxial_stress_patch",
+      "relative_error": 1.396984e-16,
+      "tolerance": 1e-05,
+      "passed": true
+    },
+    {
+      "name": "free_thermal_expansion",
+      "relative_error": 7.307098333333333e-15,
+      "max_stress_pa": 3.502807e-07,
+      "tolerance": 1e-05,
+      "passed": true
+    },
+    {
+      "name": "uniform_adiabatic_heating",
+      "relative_error": 2.079999999662796e-06,
+      "expected_rise_k": 0.5420788724759452,
+      "tolerance": 0.0001,
+      "passed": true
+    },
+    {
+      "name": "fourier_conduction_patch",
+      "relative_error": 0.0,
+      "tolerance": 1e-05,
+      "passed": true
+    }
+  ]
+}
