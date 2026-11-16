@@ -59,6 +59,8 @@ The disc starts uniformly at ambient. Prescribed heat flux acts on the actual su
 
 All exterior faces exchange heat with ambient through an assumed uniform convection coefficient. Conductivity and heat capacity are constant. Hub conduction and pads are not modeled; the heat fraction represents the assumed disc/pad energy partition. Circumferential averaging omits local moving-pad hot spots.
 
+The linear thermal systems use CalculiX's built-in `ITERATIVE SCALING` solver. Its temperatures are checked against the direct SPOOLES reference for the revised drilled disc. Structural cases retain the installed default direct solver. This changes the linear-system solution method, not the mesh, loads, time increments or acceptance limits.
+
 Maximum time increments are `t_stop/80` while braking and `t_cooling/20` afterward. Time discretization introduces a small source-energy error, measured against continuous-time input rather than hidden by rescaling the source. The maximum energy residual must remain below 2% of stop heat.
 
 ```text

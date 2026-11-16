@@ -70,7 +70,7 @@ def thermal(folder: Path, mesh: Mesh, c: Config, req):
               "*AMPLITUDE,NAME=BRAKE,TIME=TOTAL TIME", f"0.,1., {stop:.12g},0., {end:.12g},0."]
     for step, duration in enumerate((stop, s.cooling_s)):
         dt = duration / (80 if step == 0 else 20)
-        lines += ["*STEP,INC=10000", "*HEAT TRANSFER", f"{dt:.12g}, {duration:.12g}, 1e-7, {dt:.12g}"]
+        lines += ["*STEP,INC=10000", "*HEAT TRANSFER,SOLVER=ITERATIVE SCALING", f"{dt:.12g}, {duration:.12g}, 1e-7, {dt:.12g}"]
         if step == 0:
             lines += ["*DFLUX,AMPLITUDE=BRAKE"]
             lines += [f"{mesh.exterior[i][0]}, S{mesh.exterior[i][1]}, {flux:.12g}"

@@ -59,7 +59,7 @@ def verify(config: Path, out: Path):
     # Uniform volumetric heating, represented by consistent nodal integrals.
     # Exact T(t)=T0+qv*t/(rho*cp), no surface losses and no gradients.
     qv, duration = 1e6, 2.
-    lines = mesh_deck(mesh, thermal=True) + mat + initial + ["*STEP", "*HEAT TRANSFER,DIRECT", "0.1,2.", "*CFLUX"]
+    lines = mesh_deck(mesh, thermal=True) + mat + initial + ["*STEP", "*HEAT TRANSFER,DIRECT,SOLVER=ITERATIVE SCALING", "0.1,2.", "*CFLUX"]
     lines += [f"{i+1},11,{qv*weight:.12g}" for i, weight in enumerate(mesh.volume_weights)]
     lines += ["*NODE PRINT,NSET=ALLN", "NT", "*END STEP"]
     (out / "heating.inp").write_text("\n".join(lines)+"\n")
@@ -74,7 +74,7 @@ def verify(config: Path, out: Path):
     temperatures = c.scenario.ambient_c + mesh.points @ gradient
     lines = mesh_deck(mesh, thermal=True) + mat + initial + ["*BOUNDARY"]
     lines += [f"{i+1},11,11,{value:.12g}" for i, value in enumerate(temperatures)]
-    lines += ["*STEP", "*HEAT TRANSFER,STEADY STATE", "*EL PRINT,ELSET=DISC", "HFL", "*END STEP"]
+    lines += ["*STEP", "*HEAT TRANSFER,STEADY STATE,SOLVER=ITERATIVE SCALING", "*EL PRINT,ELSET=DISC", "HFL", "*END STEP"]
     (out / "conduction.inp").write_text("\n".join(lines)+"\n")
     run_ccx(out, "conduction")
     # Heat flux has its own DAT header; parse the four integration-point rows explicitly.

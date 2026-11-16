@@ -57,6 +57,7 @@ def run(config_path, output, names=None, mesh_mm=None, overwrite=False):
     study["software"] = {p: importlib.metadata.version(p) for p in
                          ("cadquery", "gmsh", "numpy", "matplotlib", "meshio")}
     study["software"]["python"] = platform.python_version()
+    study["software"]["thermal_solver"] = "CalculiX ITERATIVE SCALING"
     study["source_sha256"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                                for p in sorted(Path(__file__).parent.glob("*.py"))}
     study["software"]["calculix"] = subprocess.run([find_ccx(), "-v"], capture_output=True,
